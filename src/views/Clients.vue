@@ -28,72 +28,30 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <table id="example2" class="table table-bordered table-hover">
-                <thead>
-                  <tr>
-                    <th>Rendering engine</th>
-                    <th>Browser</th>
-                    <th>Platform(s)</th>
-                    <th>Engine version</th>
-                    <th>CSS grade</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Trident</td>
-                    <td>Internet Explorer 4.0</td>
-                    <td>Win 95+</td>
-                    <td>4</td>
-                    <td>X</td>
-                  </tr>
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <th>Rendering engine</th>
-                    <th>Browser</th>
-                    <th>Platform(s)</th>
-                    <th>Engine version</th>
-                    <th>CSS grade</th>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Data Table With Full Features</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                   <tr>
-                    <th>Rendering engine</th>
-                    <th>Browser</th>
-                    <th>Platform(s)</th>
-                    <th>Engine version</th>
-                    <th>CSS grade</th>
+                    <th>name</th>
+                    <th>dateRegister</th>
+                    <th>dateExpires</th>
+                    <th>description</th>
+                    <th>author</th>
+                    <th>status</th>
+      
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Trident</td>
-                    <td>Internet Explorer 4.0</td>
-                    <td>Win 95+</td>
-                    <td>4</td>
-                    <td>X</td>
-                  </tr>
+                  
+                  
                 </tbody>
                 <tfoot>
                   <tr>
-                    <th>Rendering engine</th>
-                    <th>Browser</th>
-                    <th>Platform(s)</th>
-                    <th>Engine version</th>
-                    <th>CSS grade</th>
+                    <th>name</th>
+                    <th>dateRegister</th>
+                    <th>dateExpires</th>
+                    <th>description</th>
+                    <th>author</th>
+                    <th>status</th>
                   </tr>
                 </tfoot>
               </table>
@@ -111,28 +69,53 @@
 </template>
 <script>
 import axios from "axios";
+import {API} from "@/const/constants";
 export default {
   methods: {
     async loadData() {
       const data = await axios.get(
-        "http://dummy.restapiexample.com/api/v1/employees"
+        API.HOST+"/clients"
       );
       console.log("data", data.data);
     }
   },
   mounted() {
     $(function() {
-      $("#example1").DataTable();
-      $("#example2").DataTable({
-        paging: true,
-        lengthChange: false,
-        searching: false,
-        ordering: true,
-        info: true,
-        autoWidth: false
-      });
+      $('#example1').DataTable( {
+        responsive: true,
+        "aLengthMenu": [[10, 20, 50, 100, 200, 1000000], [10, 20, 50, 100, 200, "All"]],
+        "iDisplayLength": 10,
+        "processing": true,
+        "serverSide": true,
+        "stateSave": true,
+        "lengthChange": true,
+        "searching": false,
+        "paging":   true,
+        "ajax": {
+            "url": `${API.HOST}/clients`,
+            "type": "GET",
+             "data": function (param) {				
+                const mappingColumnName =["name", "dateRegister", "dateExpires", "description", "author","status"];
+                param.orderName =  mappingColumnName[param.order[0].column];
+                param.orderStatus =  param.order[0].dir;
+            },
+            "dataSrc": function (json) {
+             return json.data;
+            }
+        },
+        "rowId": 'id',
+        "columns": [
+            { "data": "name" },
+            { "data": "dateRegister" },
+            { "data": "dateExpires" },
+            { "data": "description" },
+            { "data": "author" },
+            { "data": "status" }
+		    ]
+    } );
     });
-    this.loadData();
+ 
+    // this.loadData();
     // fetch("http://dummy.restapiexample.com/api/v1/employees")
     // .then((response) => { console.log("response",response); return response.json() })
     // .then((data) => {
