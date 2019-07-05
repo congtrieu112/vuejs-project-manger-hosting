@@ -5,7 +5,7 @@ let webAuth = new auth0.WebAuth({
     domain: 'quanlysanphamweb.auth0.com',
     clientID: 'o00FpnEECR73k9JIesEOUqSyrVPuxwP1',
     // make sure port is 8080
-    redirectUri: 'http://localhost:8081/callback', 
+    redirectUri: 'http://localhost:8080/callback', 
     // we will use the api/v2/ to access the user information as payload
     audience: 'https://quanlysanphamweb.auth0.com/api/v2/',
     responseType: 'token id_token',
@@ -60,7 +60,7 @@ let webAuth = new auth0.WebAuth({
           localStorage.removeItem('expires_at')
           localStorage.removeItem('user')
           webAuth.logout({
-            returnTo: 'http://localhost:8081', // Allowed logout URL listed in dashboard
+            returnTo: 'http://localhost:8080', // Allowed logout URL listed in dashboard
             clientID: 'o00FpnEECR73k9JIesEOUqSyrVPuxwP1', // Your client ID
           })
         })
@@ -68,7 +68,7 @@ let webAuth = new auth0.WebAuth({
       isAuthenticated() {
           const expiresAts = this.expiresAt ? this.expiresAt : 0; 
           console.log('expiresAts',expiresAts)
-        return new Date().getTime() < expiresAts
+        return new Date().getTime() < parseInt(localStorage.getItem('expires_at'))
       },
       handleAuthentication() {
         return new Promise((resolve, reject) => {  

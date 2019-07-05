@@ -1,10 +1,10 @@
 <template>
   <div id="app" class="wrapper">
-    <Header />
-    <Sidebar />
+    <Header  />
+    <Sidebar  />
     <router-view />
-    <Footer />
-    <SidebarFooter />
+    <Footer  />
+    <SidebarFooter  />
   </div>
 </template>
 <script lang="ts">
@@ -22,7 +22,23 @@ import SidebarFooter from "@/components/SidebarFooter.vue";
     SidebarFooter
   }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+//  private auth:boolean = false;
+//  get authen() {
+//    this.auth = this.$auth.isAuthenticated();
+//    return this.auth;
+//  }
+//  mounted() {
+   
+//     if(!this.authen){
+//       $("body").attr("class","hold-transition login-page")
+//     }
+    
+//  }
+
+
+
+}
 </script>
 
 <style lang="scss"></style>
