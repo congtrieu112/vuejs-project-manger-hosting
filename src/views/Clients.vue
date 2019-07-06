@@ -31,13 +31,12 @@
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                   <tr>
-                    <th>name</th>
-                    <th>dateRegister</th>
-                    <th>dateExpires</th>
+                    <th>fullname</th>
+                    <th>email</th>
+                    <th>phone</th>
                     <th>description</th>
-                    <th>author</th>
+                    <th>birday</th>
                     <th>status</th>
-      
                   </tr>
                 </thead>
                 <tbody>
@@ -46,11 +45,11 @@
                 </tbody>
                 <tfoot>
                   <tr>
-                    <th>name</th>
-                    <th>dateRegister</th>
-                    <th>dateExpires</th>
+                    <th>fullname</th>
+                    <th>email</th>
+                    <th>phone</th>
                     <th>description</th>
-                    <th>author</th>
+                    <th>birday</th>
                     <th>status</th>
                   </tr>
                 </tfoot>
@@ -94,8 +93,9 @@ export default {
         "ajax": {
             "url": `${API.HOST}/clients`,
             "type": "GET",
-             "data": function (param) {				
-                const mappingColumnName =["name", "dateRegister", "dateExpires", "description", "author","status"];
+             "data": function (param) {		
+	
+                const mappingColumnName =["fullname", "email", "phone", "description","birthday", "status"];
                 param.orderName =  mappingColumnName[param.order[0].column];
                 param.orderStatus =  param.order[0].dir;
             },
@@ -105,11 +105,11 @@ export default {
         },
         "rowId": 'id',
         "columns": [
-            { "data": "name" },
-            { "data": "dateRegister" },
-            { "data": "dateExpires" },
+            { "data": "fullname" },
+            { "data": "email" },
+            { "data": "phone" },
             { "data": "description" },
-            { "data": "author" },
+            { "data": "birthday" },
             { "data": "status" }
 		    ]
     } );

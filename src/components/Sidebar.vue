@@ -351,11 +351,71 @@
           </a>
         </li>
         <li class="header">LABELS</li> -->
-        <li :class="{ active: activeTab == '/clients' }">
+        <li class="treeview" :class="{ active: activeTab == '/clients' || activeTab == '/create-client' }" >
           <a href="/clients">
-            <i class="fa fa-circle-o text-red"></i>
+            <i class="fa fa-folder"></i>
             <span>Clients</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu">
+            <li :class="{ active: activeTab == '/clients' }">
+              <a href="/clients">
+                <i class="fa fa-circle-o"></i> Client
+              </a>
+            </li>
+            <li :class="{ active: activeTab == '/create-client' }">
+              <a href="/create-client">
+                <i class="fa fa-circle-o"></i> Create Client
+              </a>
+            </li>
+            
+          </ul>
+        </li>
+        <li class="treeview" :class="{ active: activeTab == '/services' }" >
+          <a href="/services">
+            <i class="fa fa-folder"></i>
+            <span>services</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li :class="{ active: activeTab == '/services' }">
+              <a href="/services">
+                <i class="fa fa-circle-o"></i> services
+              </a>
+            </li>
+            <li>
+              <a href="/create-service">
+                <i class="fa fa-circle-o"></i> Create service
+              </a>
+            </li>
+            
+          </ul>
+        </li>
+        <li class="treeview" :class="{ active: activeTab == '/user-services' }" >
+          <a href="/user-services">
+            <i class="fa fa-folder"></i>
+            <span>User Services</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li :class="{ active: activeTab == '/user-services' }">
+              <a href="/user-services">
+                <i class="fa fa-circle-o"></i> User services
+              </a>
+            </li>
+            <li>
+              <a href="/create-user-service">
+                <i class="fa fa-circle-o"></i> Create User service
+              </a>
+            </li>
+            
+          </ul>
         </li>
         <!-- <li>
           <a href="#">
