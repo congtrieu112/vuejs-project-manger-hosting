@@ -40,36 +40,37 @@ const router =  new Router({
       path: "/clients",
       name: "clients",
       component: Clients,
-      // beforeEnter: ifAuthenticated,
+      beforeEnter: ifAuthenticated,
     },
     {
       path: '/callback',
       name: 'callback',
-      component: Callback
+      component: Callback,
+      beforeEnter: ifNotAuthenticated
     },
     {
       path: '/login',
       name: 'Login',
       component: Login,
       // meta: { bodyClass: 'hold-transition login-page' },
-      // beforeEnter: ifNotAuthenticated,
+      beforeEnter: ifNotAuthenticated,
     }
   ]
   
 });
 
 // very basic "setup" of a global guard
-router.beforeEach((to, from, next) => {
-  if(to.name === 'callback') { // check if "to"-route is "callback" and allow access
-    next()
-    // eslint-disable-next-line
-  } else if (router.app.$auth.isAuthenticated()) { // if authenticated allow access
-    next()
-  } else { // trigger auth0 login
-    // eslint-disable-next-line
-    router.app.$auth.login()
-  }
-})
+// router.beforeEach((to, from, next) => {
+//   if(to.name === 'callback') { // check if "to"-route is "callback" and allow access
+//     next()
+//     // eslint-disable-next-line
+//   } else if (router.app.$auth.isAuthenticated()) { // if authenticated allow access
+//     next()
+//   } else { // trigger auth0 login
+//     // eslint-disable-next-line
+//     router.app.$auth.login()
+//   }
+// })
 
 export default router
 

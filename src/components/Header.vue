@@ -23,7 +23,7 @@
                     <a href="#">
                       <div class="pull-left">
                         <img
-                          src="lib/dist/img/user2-160x160.jpg"
+                          :src="avata"
                           class="img-circle"
                           alt="User Image"
                         />
@@ -251,7 +251,7 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img
-                src="lib/dist/img/user2-160x160.jpg"
+                :src="avata"
                 class="user-image"
                 alt="User Image"
               />
@@ -260,7 +260,7 @@
             <ul class="dropdown-menu">
               <li class="user-header">
                 <img
-                  src="lib/dist/img/user2-160x160.jpg"
+                  :src="avata"
                   class="img-circle"
                   alt="User Image"
                 />
@@ -302,3 +302,24 @@
     </nav>
   </header>
 </template>
+<script>
+export default {
+  data(){
+    return {
+        avata:''
+    }
+    
+  },
+  methods:{
+    getAvata(){
+      const user = JSON.parse( localStorage.getItem("user"));
+      this.avata = user.picture;
+    }
+  },
+  mounted(){
+    this.getAvata();
+    console.log()
+  }
+}
+</script>
+

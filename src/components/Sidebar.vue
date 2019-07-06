@@ -4,7 +4,7 @@
       <div class="user-panel">
         <div class="pull-left image">
           <img
-            src="lib/dist/img/user2-160x160.jpg"
+            :src="avata"
             class="img-circle"
             alt="User Image"
           />
@@ -377,13 +377,21 @@
 export default {
   data: function() {
     return {
-      activeTab: this.$route.path
+      activeTab: this.$route.path,
+      avata:''
     };
   },
   props: ["uuid"],
-  methods: {},
+  methods: {
+    getAvata(){
+      const user = JSON.parse( localStorage.getItem("user"));
+      this.avata = user.picture;
+    }
+  },
   mounted() {
+    this.getAvata();
     console.log(this.$route.path);
   }
 };
 </script>
+

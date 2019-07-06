@@ -1,10 +1,10 @@
 <template>
   <div id="app" class="wrapper">
-    <Header  />
-    <Sidebar  />
+    <Header  v-if="authen"  />
+    <Sidebar  v-if="authen"  />
     <router-view />
-    <Footer  />
-    <SidebarFooter  />
+    <Footer v-if="authen"   />
+    <SidebarFooter v-if="authen"  />
   </div>
 </template>
 <script lang="ts">
@@ -23,18 +23,18 @@ import SidebarFooter from "@/components/SidebarFooter.vue";
   }
 })
 export default class App extends Vue {
-//  private auth:boolean = false;
-//  get authen() {
-//    this.auth = this.$auth.isAuthenticated();
-//    return this.auth;
-//  }
-//  mounted() {
+ private auth:boolean = false;
+ get authen() {
+   this.auth = this.$auth.isAuthenticated();
+   return this.auth;
+ }
+ mounted() {
    
-//     if(!this.authen){
-//       $("body").attr("class","hold-transition login-page")
-//     }
+    if(!this.authen){
+      $("body").attr("class","hold-transition login-page")
+    }
     
-//  }
+ }
 
 
 

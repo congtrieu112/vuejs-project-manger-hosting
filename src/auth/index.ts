@@ -68,7 +68,7 @@ let webAuth = new auth0.WebAuth({
       isAuthenticated() {
           const expiresAts = this.expiresAt ? this.expiresAt : 0; 
           console.log('expiresAts',expiresAts)
-        return new Date().getTime() < parseInt(localStorage.getItem('expires_at'))
+        return new Date().getTime() < expiresAts
       },
       handleAuthentication() {
         return new Promise((resolve, reject) => {  
