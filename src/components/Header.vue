@@ -1,8 +1,12 @@
 <template>
   <header class="main-header">
     <a href="index2.html" class="logo">
-      <span class="logo-mini"> <b>A</b>LT </span>
-      <span class="logo-lg"> <b>Admin</b>LTE </span>
+      <span class="logo-mini">
+        <b>A</b>LT
+      </span>
+      <span class="logo-lg">
+        <b>Admin</b>LTE
+      </span>
     </a>
     <nav class="navbar navbar-static-top">
       <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -22,15 +26,13 @@
                   <li>
                     <a href="#">
                       <div class="pull-left">
-                        <img
-                          :src="avata"
-                          class="img-circle"
-                          alt="User Image"
-                        />
+                        <img :src="avata" class="img-circle" alt="User Image" />
                       </div>
                       <h4>
                         Support Team
-                        <small> <i class="fa fa-clock-o"></i> 5 mins </small>
+                        <small>
+                          <i class="fa fa-clock-o"></i> 5 mins
+                        </small>
                       </h4>
                       <p>Why not buy a new awesome theme?</p>
                     </a>
@@ -46,7 +48,9 @@
                       </div>
                       <h4>
                         AdminLTE Design Team
-                        <small> <i class="fa fa-clock-o"></i> 2 hours </small>
+                        <small>
+                          <i class="fa fa-clock-o"></i> 2 hours
+                        </small>
                       </h4>
                       <p>Why not buy a new awesome theme?</p>
                     </a>
@@ -62,7 +66,9 @@
                       </div>
                       <h4>
                         Developers
-                        <small> <i class="fa fa-clock-o"></i> Today </small>
+                        <small>
+                          <i class="fa fa-clock-o"></i> Today
+                        </small>
                       </h4>
                       <p>Why not buy a new awesome theme?</p>
                     </a>
@@ -78,7 +84,9 @@
                       </div>
                       <h4>
                         Sales Department
-                        <small> <i class="fa fa-clock-o"></i> Yesterday </small>
+                        <small>
+                          <i class="fa fa-clock-o"></i> Yesterday
+                        </small>
                       </h4>
                       <p>Why not buy a new awesome theme?</p>
                     </a>
@@ -94,7 +102,9 @@
                       </div>
                       <h4>
                         Reviewers
-                        <small> <i class="fa fa-clock-o"></i> 2 days </small>
+                        <small>
+                          <i class="fa fa-clock-o"></i> 2 days
+                        </small>
                       </h4>
                       <p>Why not buy a new awesome theme?</p>
                     </a>
@@ -250,20 +260,12 @@
           </li>
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img
-                :src="avata"
-                class="user-image"
-                alt="User Image"
-              />
+              <img :src="avata" class="user-image" alt="User Image" />
               <span class="hidden-xs">Alexander Pierce</span>
             </a>
             <ul class="dropdown-menu">
               <li class="user-header">
-                <img
-                  :src="avata"
-                  class="img-circle"
-                  alt="User Image"
-                />
+                <img :src="avata" class="img-circle" alt="User Image" />
                 <p>
                   Alexander Pierce - Web Developer
                   <small>Member since Nov. 2012</small>
@@ -287,7 +289,7 @@
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat" @click="this.$auth.logout">Sign out</a>
+                  <a href="#" class="btn btn-default btn-flat" @click="logout">Sign out</a>
                 </div>
               </li>
             </ul>
@@ -304,22 +306,23 @@
 </template>
 <script>
 export default {
-  data(){
+  data() {
     return {
-        avata:''
-    }
-    
+      avata: ""
+    };
   },
-  methods:{
-    getAvata(){
-      const user = JSON.parse( localStorage.getItem("user"));
+  methods: {
+    getAvata() {
+      const user = JSON.parse(localStorage.getItem("user"));
       this.avata = user.picture;
+    },
+    logout() {
+      this.$auth.logout();
     }
   },
-  mounted(){
+  mounted() {
     this.getAvata();
-    console.log()
+    console.log();
   }
-}
+};
 </script>
-

@@ -3,12 +3,10 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "./registerServiceWorker";
-import auth from "@/auth";
-import vbclass from "vue-body-class";
-Vue.use(auth);
-Vue.use( vbclass, router );
+import AuthService from "./auth";
+
 Vue.config.productionTip = false;
-// Vue.prototype.$auth = auth;
+Vue.prototype.$auth = new AuthService();
 
 new Vue({
   router,

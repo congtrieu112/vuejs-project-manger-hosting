@@ -1,5 +1,5 @@
 <template>
-    <div class="content-wrapper">
+  <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
@@ -7,7 +7,9 @@
         <small>Preview</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="/clients"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li>
+          <a href="/clients"><i class="fa fa-dashboard"></i> Home</a>
+        </li>
         <li class="active">Create Client</li>
       </ol>
     </section>
@@ -27,28 +29,55 @@
               <div class="box-body">
                 <div class="form-group">
                   <label for="textname">Name Client</label>
-                  <input type="text" name="name" class="form-control" id="textname" placeholder="Enter name">
+                  <input
+                    type="text"
+                    name="name"
+                    class="form-control"
+                    id="textname"
+                    placeholder="Enter name"
+                  />
                 </div>
                 <div class="form-group">
                   <label for="textdateRegister">Date Created</label>
-                  <input type="text" name="dateRegister" class="form-control" id="textdateRegister" placeholder="20-01-2019">
+                  <input
+                    type="text"
+                    name="dateRegister"
+                    class="form-control"
+                    id="textdateRegister"
+                    placeholder="20-01-2019"
+                  />
                 </div>
                 <div class="form-group">
                   <label for="textdateExpires">Date Exprires</label>
-                  <input type="text" name="dateExpires" id="textdateExpires" class="form-control" placeholder="20-01-2019">
+                  <input
+                    type="text"
+                    name="dateExpires"
+                    id="textdateExpires"
+                    class="form-control"
+                    placeholder="20-01-2019"
+                  />
                 </div>
                 <div class="form-group">
                   <label for="textdescription">Description</label>
-                  <textarea name="description" id="textdescription"  class="form-control" placeholder="Contend"></textarea>
+                  <textarea
+                    name="description"
+                    id="textdescription"
+                    class="form-control"
+                    placeholder="Contend"
+                  ></textarea>
                 </div>
                 <div class="form-group">
                   <label for="textstatus">Status</label>
-                  <select id="textstatus" class="form-control select2" name="status" style="with:100%" >
-                      <option value="0">Active</option>
-                      <option value="1">Disable</option>
+                  <select
+                    id="textstatus"
+                    class="form-control select2"
+                    name="status"
+                    style="with:100%"
+                  >
+                    <option value="0">Active</option>
+                    <option value="1">Disable</option>
                   </select>
                 </div>
-                
               </div>
               <!-- /.box-body -->
 
@@ -58,7 +87,6 @@
             </form>
           </div>
           <!-- /.box -->
-
         </div>
       </div>
       <!-- /.row -->
@@ -68,14 +96,13 @@
 </template>
 <script>
 export default {
-    mounted(){
-        //Date picker
-        $('#textdateRegister,#textdateExpires').datepicker({
-        autoclose: true
-        })
-        //Initialize Select2 Elements
-        $('.select2').select2()
-
-    }
-}
+  mounted() {
+    //Date picker
+    $("#textdateRegister,#textdateExpires").datepicker({
+      autoclose: true
+    });
+    //Initialize Select2 Elements
+    $(".select2").select2();
+  }
+};
 </script>

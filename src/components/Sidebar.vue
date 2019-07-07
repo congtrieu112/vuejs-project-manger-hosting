@@ -3,11 +3,7 @@
     <section class="sidebar">
       <div class="user-panel">
         <div class="pull-left image">
-          <img
-            :src="avata"
-            class="img-circle"
-            alt="User Image"
-          />
+          <img :src="avata" class="img-circle" alt="User Image" />
         </div>
         <div class="pull-left info">
           <p>Alexander Pierce</p>
@@ -351,7 +347,12 @@
           </a>
         </li>
         <li class="header">LABELS</li> -->
-        <li class="treeview" :class="{ active: activeTab == '/clients' || activeTab == '/create-client' }" >
+        <li
+          class="treeview"
+          :class="{
+            active: activeTab == '/clients' || activeTab == '/create-client'
+          }"
+        >
           <a href="/clients">
             <i class="fa fa-folder"></i>
             <span>Clients</span>
@@ -361,19 +362,16 @@
           </a>
           <ul class="treeview-menu">
             <li :class="{ active: activeTab == '/clients' }">
-              <a href="/clients">
-                <i class="fa fa-circle-o"></i> Client
-              </a>
+              <a href="/clients"> <i class="fa fa-circle-o"></i> Client </a>
             </li>
             <li :class="{ active: activeTab == '/create-client' }">
               <a href="/create-client">
                 <i class="fa fa-circle-o"></i> Create Client
               </a>
             </li>
-            
           </ul>
         </li>
-        <li class="treeview" :class="{ active: activeTab == '/services' }" >
+        <li class="treeview" :class="{ active: activeTab == '/services' }">
           <a href="/services">
             <i class="fa fa-folder"></i>
             <span>services</span>
@@ -383,19 +381,16 @@
           </a>
           <ul class="treeview-menu">
             <li :class="{ active: activeTab == '/services' }">
-              <a href="/services">
-                <i class="fa fa-circle-o"></i> services
-              </a>
+              <a href="/services"> <i class="fa fa-circle-o"></i> services </a>
             </li>
             <li>
               <a href="/create-service">
                 <i class="fa fa-circle-o"></i> Create service
               </a>
             </li>
-            
           </ul>
         </li>
-        <li class="treeview" :class="{ active: activeTab == '/user-services' }" >
+        <li class="treeview" :class="{ active: activeTab == '/user-services' }">
           <a href="/user-services">
             <i class="fa fa-folder"></i>
             <span>User Services</span>
@@ -414,7 +409,6 @@
                 <i class="fa fa-circle-o"></i> Create User service
               </a>
             </li>
-            
           </ul>
         </li>
         <!-- <li>
@@ -438,13 +432,13 @@ export default {
   data: function() {
     return {
       activeTab: this.$route.path,
-      avata:''
+      avata: ""
     };
   },
   props: ["uuid"],
   methods: {
-    getAvata(){
-      const user = JSON.parse( localStorage.getItem("user"));
+    getAvata() {
+      const user = JSON.parse(localStorage.getItem("user"));
       this.avata = user.picture;
     }
   },
@@ -454,4 +448,3 @@ export default {
   }
 };
 </script>
-

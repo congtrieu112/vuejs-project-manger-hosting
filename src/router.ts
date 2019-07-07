@@ -1,4 +1,5 @@
-/* eslint-disable */ 
+/* eslint-disable */
+
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
@@ -6,28 +7,28 @@ import Clients from "./views/Clients.vue";
 import Callback from "./views/Callback.vue";
 import Login from "./views/Login.vue";
 import CreateClient from "./views/CreateClient";
-// import auth from "@/auth";
-// Vue.use(auth);
+import AuthService from "./auth";
 Vue.use(Router);
-
-const ifNotAuthenticated = (to, from, next) => {
-  if (!router.app.$auth.isAuthenticated()) {
-    next()
-    return
+const auth = new AuthService();
+const ifNotAuthenticated = (to: any, from: any, next: any): void => {
+  if (!auth.isAuthenticated()) {
+    next();
+    return;
   }
-  next('/')
-}
 
-const ifAuthenticated = (to, from, next) => {
-  if (router.app.$auth.isAuthenticated()) {
-    console.log("from",from)
-    next()
-    return
+  next("/");
+};
+
+const ifAuthenticated = (to: any, from: any, next: any): void => {
+
+  if (auth.isAuthenticated()) {
+    next();
+    return;
   }
-  next('/login')
-}
+  next("/login");
+};
 
-const router =  new Router({
+const router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
@@ -41,29 +42,27 @@ const router =  new Router({
       path: "/clients",
       name: "clients",
       component: Clients,
-      beforeEnter: ifAuthenticated,
+      beforeEnter: ifAuthenticated
     },
     {
       path: "/create-client",
       name: "createClient",
       component: CreateClient,
-      beforeEnter: ifAuthenticated,
+      beforeEnter: ifAuthenticated
     },
     {
-      path: '/callback',
-      name: 'callback',
+      path: "/callback",
+      name: "callback",
       component: Callback,
       beforeEnter: ifNotAuthenticated
     },
     {
-      path: '/login',
-      name: 'Login',
+      path: "/login",
+      name: "Login",
       component: Login,
-      // meta: { bodyClass: 'hold-transition login-page' },
-      beforeEnter: ifNotAuthenticated,
+      beforeEnter: ifNotAuthenticated
     }
   ]
-  
 });
 
 // very basic "setup" of a global guard
@@ -79,5 +78,4 @@ const router =  new Router({
 //   }
 // })
 
-export default router
-
+export default router;

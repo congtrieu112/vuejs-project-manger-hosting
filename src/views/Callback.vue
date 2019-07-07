@@ -1,18 +1,13 @@
 <template>
-    <div>
-
-    </div>
+  <div></div>
 </template>
 <script>
 export default {
-  name: 'callback',
+  name: "callback",
   mounted() {
-    this.$auth.handleAuthentication().then((data) => {
-      // this.$router.push({ name: 'callback' })
+    this.$auth.handleAuthentication().then(data => {
       this.$router.go(0);
-      // location.reload();
-      // this.$router.reload()
-    })
+    });
   }
-}
+};
 </script>

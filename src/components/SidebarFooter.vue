@@ -212,3 +212,6 @@
   </aside>
   <!-- /.control-sidebar -->
 </template>
+<script>
+export default {};
+</script>
