@@ -1,5 +1,5 @@
 import auth0 from "auth0-js";
-
+import authConfig from "../../auth_config.json";
 
 export default class AuthService {
   private config: any;
@@ -8,16 +8,7 @@ export default class AuthService {
   private accessToken: any;
   private token: any;
   constructor() {
-    const setting = new auth0.WebAuth({
-      domain: 'quanlysanphamweb.auth0.com',
-      clientID: 'o00FpnEECR73k9JIesEOUqSyrVPuxwP1',
-      // make sure port is 8080
-      redirectUri: 'http://localhost:8080/callback',
-      // we will use the api/v2/ to access the user information as payload
-      audience: 'https://quanlysanphamweb.auth0.com/api/v2/',
-      responseType: 'token id_token',
-      scope: 'openid profile'
-    });
+    const setting = new auth0.WebAuth(authConfig);
     this.config = setting;
 
   }
@@ -57,8 +48,8 @@ export default class AuthService {
     localStorage.removeItem('expires_at')
     localStorage.removeItem('user')
     this.config.logout({
-      returnTo: 'http://localhost:8080', // Allowed logout URL listed in dashboard
-      clientID: 'o00FpnEECR73k9JIesEOUqSyrVPuxwP1', // Your client ID
+      returnTo: `${window.location.origin}`, // Allowed logout URL listed in dashboard
+      clientID: authConfig.clientID, // Your client ID
     })
   }
 

@@ -8,7 +8,9 @@
       </h1>
       <ol class="breadcrumb">
         <li>
-          <a href="/clients"><i class="fa fa-dashboard"></i> Home</a>
+          <a href="/clients">
+            <i class="fa fa-dashboard"></i> Home
+          </a>
         </li>
         <li class="active">Create Client</li>
       </ol>
@@ -25,36 +27,39 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form role="form">
+            <form @submit.prevent="handleSubmit" id="create-client">
               <div class="box-body">
                 <div class="form-group">
-                  <label for="textname">Name Client</label>
+                  <label for="textfullname">Full Name Client</label>
                   <input
                     type="text"
-                    name="name"
+                    name="fullname"
                     class="form-control"
-                    id="textname"
-                    placeholder="Enter name"
+                    id="textfullname"
+                    placeholder="Dinh Cong Trieu"
+                    required="required"
                   />
                 </div>
                 <div class="form-group">
-                  <label for="textdateRegister">Date Created</label>
+                  <label for="textemail">Email</label>
                   <input
-                    type="text"
-                    name="dateRegister"
+                    type="email"
+                    name="email"
                     class="form-control"
-                    id="textdateRegister"
-                    placeholder="20-01-2019"
+                    id="textemail"
+                    placeholder="congtrieu@gmail.com"
+                    required="required"
                   />
                 </div>
                 <div class="form-group">
-                  <label for="textdateExpires">Date Exprires</label>
+                  <label for="textphone">Phone</label>
                   <input
                     type="text"
-                    name="dateExpires"
-                    id="textdateExpires"
+                    name="phone"
+                    id="textphone"
                     class="form-control"
-                    placeholder="20-01-2019"
+                    placeholder="0797409692"
+                    required="required"
                   />
                 </div>
                 <div class="form-group">
@@ -64,7 +69,28 @@
                     id="textdescription"
                     class="form-control"
                     placeholder="Contend"
+                    required="required"
                   ></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="textpassword">Password</label>
+                  <input
+                    type="password"
+                    id="textpassword"
+                    class="form-control"
+                    name="password"
+                    required="required"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="textrepassword">Re Password</label>
+                  <input
+                    type="password"
+                    id="textrepassword"
+                    class="form-control"
+                    name="repassword"
+                    required="required"
+                  />
                 </div>
                 <div class="form-group">
                   <label for="textstatus">Status</label>
@@ -72,15 +98,24 @@
                     id="textstatus"
                     class="form-control select2"
                     name="status"
-                    style="with:100%"
+                    required="required"
                   >
-                    <option value="0">Active</option>
-                    <option value="1">Disable</option>
+                    <option value="1">Active</option>
+                    <option value="0">Deactive</option>
                   </select>
+                </div>
+                <div class="form-group">
+                  <label for="textbirthday">Birthday</label>
+                  <input
+                    type="text"
+                    id="textbirthday"
+                    class="form-control"
+                    name="birthday"
+                    required="required"
+                  />
                 </div>
               </div>
               <!-- /.box-body -->
-
               <div class="box-footer">
                 <button type="submit" class="btn btn-primary">Create</button>
               </div>
@@ -95,10 +130,33 @@
   </div>
 </template>
 <script>
+import Services from "@/api";
+import Swal from "sweetalert2";
 export default {
+  methods: {
+    handleSubmit: async function(e) {
+      // this.$refs.form.submit()
+      let dataValue = $("#create-client").serialize();
+      const button = $("#create-client")
+        .find("button[type=submit]")
+        .button("loading");
+      console.log("formData", dataValue);
+      const result = await Services.createClient(dataValue);
+      button.button("reset");
+      if (result.data.errno) {
+        alert(result.data.message);
+      } else {
+        Swal.fire("Create success", "", "success").then(result => {
+          $("#create-client")[0].reset();
+        });
+      }
+      console.log("result", result);
+      return false;
+    }
+  },
   mounted() {
     //Date picker
-    $("#textdateRegister,#textdateExpires").datepicker({
+    $("#textbirthday").datepicker({
       autoclose: true
     });
     //Initialize Select2 Elements

@@ -6,7 +6,7 @@ import Home from "./views/Home.vue";
 import Clients from "./views/Clients.vue";
 import Callback from "./views/Callback.vue";
 import Login from "./views/Login.vue";
-import CreateClient from "./views/CreateClient";
+import CreateClient from "./views/CreateClient.vue";
 import AuthService from "./auth";
 Vue.use(Router);
 const auth = new AuthService();

@@ -1,0 +1,8 @@
+{
+    "domain": "quanlysanphamweb.auth0.com",
+    "clientID": "o00FpnEECR73k9JIesEOUqSyrVPuxwP1",
+    "redirectUri": "http://localhost:8080/callback",
+    "audience": "https://quanlysanphamweb.auth0.com/api/v2/",
+    "responseType": "token id_token",
+    "scope": "openid profile"
+}

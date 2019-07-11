@@ -9,7 +9,9 @@
       </h1>
       <ol class="breadcrumb">
         <li>
-          <a href="#"> <i class="fa fa-dashboard"></i> Home </a>
+          <a href="#">
+            <i class="fa fa-dashboard"></i> Home
+          </a>
         </li>
         <li>
           <a href="#">Tables</a>
@@ -65,6 +67,7 @@
 </template>
 <script>
 import axios from "axios";
+// import $ from "jquery";
 import { API } from "@/const/constants";
 export default {
   methods: {
@@ -118,28 +121,6 @@ export default {
         ]
       });
     });
-
-    // this.loadData();
-    // fetch("http://dummy.restapiexample.com/api/v1/employees")
-    // .then((response) => { console.log("response",response); return response.json() })
-    // .then((data) => {
-    //   // self.items = data
-    //   console.log("data",data)
-    // }).catch( error => { console.log("error",error); });
-
-    // axios
-    //   .get("http://dummy.restapiexample.com/api/v1/employees")
-    //   .then(function(response) {
-    //     // handle success
-    //     console.log("response", response.data);
-    //   })
-    //   .catch(function(error) {
-    //     // handle error
-    //     console.log("error", error);
-    //   })
-    //   .finally(function() {
-    //     // always executed
-    //   });
   }
 };
 </script>

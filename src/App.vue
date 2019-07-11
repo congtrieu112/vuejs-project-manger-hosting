@@ -14,6 +14,7 @@ import Footer from "@/components/Footer.vue";
 import Sidebar from "@/components/Sidebar.vue";
 import SidebarFooter from "@/components/SidebarFooter.vue";
 import AuthService from "./auth";
+import $ from "jquery";
 const auth = new AuthService();
 @Component({
   components: {

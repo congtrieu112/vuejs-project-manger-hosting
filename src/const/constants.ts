@@ -1,3 +1,3 @@
 export const API = {
-  HOST: "http://localhost:3000"
+  HOST: "http://103.1.236.144:999"
 };
