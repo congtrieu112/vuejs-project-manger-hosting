@@ -144,7 +144,9 @@ export default {
       const result = await Services.createClient(dataValue);
       button.button("reset");
       if (result.data.errno) {
-        alert(result.data.message);
+        Swal.fire("result.data.message", "", "error").then(result => {
+          $("#create-client")[0].reset();
+        });
       } else {
         Swal.fire("Create success", "", "success").then(result => {
           $("#create-client")[0].reset();
