@@ -141,7 +141,7 @@ export default {
         .find("button[type=submit]")
         .button("loading");
       console.log("formData", dataValue);
-      const result = await Services.createClient(dataValue);
+      const result = await Services.createOrApi(dataValue,"clients");
       button.button("reset");
       if (result.data.errno) {
         Swal.fire("result.data.message", "", "error").then(result => {
