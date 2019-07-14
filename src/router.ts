@@ -9,6 +9,7 @@ import Login from "./views/Login.vue";
 import Services from "./views/Services.vue";
 import UserServices from "./views/UserServices.vue";
 import AuthService from "./auth";
+import Mails from "./views/Mails.vue";
 Vue.use(Router);
 const auth = new AuthService();
 const ifNotAuthenticated = (to: any, from: any, next: any): void => {
@@ -56,6 +57,12 @@ const router = new Router({
       path: "/services",
       name: "services",
       component: Services,
+      beforeEnter: ifAuthenticated
+    },
+    {
+      path: "/mails",
+      name: "mails",
+      component: Mails,
       beforeEnter: ifAuthenticated
     },
     {

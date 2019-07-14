@@ -396,6 +396,22 @@
             </li>
           </ul>
         </li>
+        <li class="treeview" :class="{ active: activeTab == '/mails' }">
+          <a href="/mails">
+            <i class="fa fa-folder"></i>
+            <span>Mails</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li :class="{ active: activeTab == '/mails' }">
+              <a href="/mails">
+                <i class="fa fa-circle-o"></i> Mails
+              </a>
+            </li>
+          </ul>
+        </li>
         <!-- <li>
           <a href="#">
             <i class="fa fa-circle-o text-yellow"></i>
