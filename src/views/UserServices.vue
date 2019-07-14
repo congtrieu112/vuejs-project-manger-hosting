@@ -37,6 +37,7 @@
                     <th>name</th>
                     <th>dateRegister</th>
                     <th>dateExpires</th>
+                    <th>dateRemind</th>
                     <th>description</th>
                     <th>services</th>
                     <th>clients</th>
@@ -50,6 +51,7 @@
                     <th>name</th>
                     <th>dateRegister</th>
                     <th>dateExpires</th>
+                    <th>dateRemind</th>
                     <th>description</th>
                     <th>services</th>
                     <th>clients</th>
@@ -101,7 +103,7 @@
                 />
               </div>
               <div class="form-group">
-                <label for="email">dateRegister</label>
+                <label for="dateRegister">dateRegister</label>
                 <input
                   type="text"
                   name="dateRegister"
@@ -111,7 +113,7 @@
                 />
               </div>
               <div class="form-group">
-                <label for="phone">dateExpires</label>
+                <label for="dateExpires">dateExpires</label>
                 <input
                   type="text"
                   name="dateExpires"
@@ -120,6 +122,17 @@
                   required="required"
                 />
               </div>
+              <div class="form-group">
+                <label for="dateRemind">dateRemind</label>
+                <input
+                  type="text"
+                  name="dateRemind"
+                  class="form-control"
+                  placeholder="yyyy-mm-dd"
+                  required="required"
+                />
+              </div>
+              
               <div class="form-group">
                 <label for="textpassword">clients</label>
                 <select
@@ -283,6 +296,7 @@ export default {
             "name",
             "dateRegister",
             "dateExpires",
+            "dateRemind",
             "description",
             "services",
             "clients",
@@ -300,6 +314,7 @@ export default {
         { data: "name" },
         { data: "dateRegister" },
         { data: "dateExpires" },
+        { data: "dateRemind"},
         { data: "description" },
         { data: "services" },
         { data: "clients" },
@@ -331,7 +346,28 @@ export default {
             }
           },
           {
-            targets: 4,
+            targets: 3,
+            data: "dateRemind",
+            render: function ( data, type, row, meta ) {
+              const dateExpires = moment(String(row.dateExpires)).format('X');
+              const dateRegister = moment(String(row.dateRegister)).format('X');
+              const dateRemind = moment(String(row.dateRemind)).format('X');
+              console.log("dateExpires - dateRegister - dateRemind",dateExpires + '-'+ dateRegister + '-'+ dateRemind)
+              let classShow = "alert-success";
+
+              if(dateExpires - dataServices >= dateRemind) {
+                classShow = "alert-danger";
+              }
+              const timeShow = moment(String(data)).format('DD/MM/YYYY');
+              const timeInput = moment(String(data)).format('YYYY/MM/DD');
+              const contentdateRemind = `<div class="text-center"  data-time="${timeInput}">
+                                        <span class="alert ${classShow}">${timeShow}</span>
+                                       </div>`;
+              return contentdateRemind;//(new Date(data)).toLocaleDateString("en-US");
+            }
+          },
+          {
+            targets: 5,
             data: "services",
             render: function ( data, type, row, meta ) {
               const contentServices = `<div class="text-center" data-id="${data.id}">
@@ -341,7 +377,7 @@ export default {
             }
           },
           {
-            targets: 5,
+            targets: 6,
             data: "clients",
             render: function ( data, type, row, meta ) {
               const contentClients = `<div class="text-center" data-id="${data.id}">
@@ -351,7 +387,7 @@ export default {
             }
           },
           {
-            targets: 6,
+            targets: 7,
             data: "status",
             render: function ( data, type, row, meta ) {
               let classShow = '';
@@ -373,7 +409,7 @@ export default {
             }
           },
           {
-            targets: 7,
+            targets: 8,
             data: null,
             defaultContent:
               '<a class="btn btn-warning btn-sm btn-edit-item">Edit</a> <a class="btn btn-danger btn-sm btn-delete">Delete</a>'
@@ -390,10 +426,11 @@ export default {
       const name = parentsTr.find("td").eq(0).text(),
             dateRegister = parentsTr.find("td").eq(1).find("div").attr('data-time'),
             dateExpires = parentsTr.find("td").eq(2).find("div").attr('data-time'),
-            description = parentsTr.find("td").eq(3).text(),
-            services = parentsTr.find("td").eq(4).find("div").attr('data-id'),
-            clients = parentsTr.find("td").eq(5).find("div").attr('data-id'),
-            status = parentsTr.find("td").eq(6).find("div").attr('data-status');
+            dateRemind = parentsTr.find("td").eq(3).find("div").attr('data-time'),
+            description = parentsTr.find("td").eq(4).text(),
+            services = parentsTr.find("td").eq(5).find("div").attr('data-id'),
+            clients = parentsTr.find("td").eq(6).find("div").attr('data-id'),
+            status = parentsTr.find("td").eq(7).find("div").attr('data-status');
       //Date picker
       this.modalEl.find("input[name=dateExpires]").datepicker({ autoclose: true,format: 'yyyy-mm-dd'}).on('changeDate', function(e) {
             // Revalidate the date field
@@ -402,6 +439,10 @@ export default {
       this.modalEl.find("input[name=dateRegister]").datepicker({ autoclose: true,format: 'yyyy-mm-dd'}).on('changeDate', function(e) {
             // Revalidate the date field
             $("#add-or-update-form").bootstrapValidator('revalidateField', 'dateRegister');
+      });
+      this.modalEl.find("input[name=dateRemind]").datepicker({ autoclose: true,format: 'yyyy-mm-dd'}).on('changeDate', function(e) {
+            // Revalidate the date field
+            $("#add-or-update-form").bootstrapValidator('revalidateField', 'dateRemind');
       });
       //Initialize Select2 Elements
       this.modalEl.find(".select2").select2({ width: "100%"});
@@ -412,6 +453,7 @@ export default {
         form.find("input[name=name]").val(name);
         form.find("input[name=dateRegister]").datepicker('setDate', new Date(dateRegister));
         form.find("input[name=dateExpires]").datepicker('setDate', new Date(dateExpires));
+        form.find("input[name=dateRemind]").datepicker('setDate', new Date(dateRemind));
         form.find("select[name=services]").val(services).trigger("change");
         form.find("select[name=clients]").val(clients).trigger("change");
         form.find("textarea[name=description]").val(description);
@@ -473,6 +515,16 @@ export default {
               }
             }
           },
+          dateRemind: {
+            validators: {
+              notEmpty: {
+                message: "please input dateRimind"
+              },
+              date: {
+                format: 'YYYY-MM-DD'
+              }
+            }
+          },
           status: {
             validators: {
               notEmpty: {
@@ -492,18 +544,7 @@ export default {
           document.dispatchEvent(event); 
           return false;
         }
-      }).on('keyup', '[name="password"]', function() {
-            var isEmpty = $(this).val() == '';
-            $("#add-or-update-form")
-                    .bootstrapValidator('enableFieldValidators', 'password', !isEmpty)
-                    .bootstrapValidator('enableFieldValidators', 'repassword', !isEmpty);
-
-            // Revalidate the field when user start typing in the password field
-            if ($(this).val().length == 1) {
-                $("#add-or-update-form").bootstrapValidator('validateField', 'password')
-                                .bootstrapValidator('validateField', 'repassword');
-            }
-        });
+      })
 
     });
     $("body").on("click", ".btn-add-item", async function() {
@@ -522,6 +563,11 @@ export default {
       this.modalEl.find("input[name=dateRegister]").datepicker({ autoclose: true,format: 'yyyy-mm-dd'}).on('changeDate', function(e) {
             // Revalidate the date field
             $("#add-or-update-form").bootstrapValidator('revalidateField', 'dateRegister');
+      });
+
+      this.modalEl.find("input[name=dateRemind]").datepicker({ autoclose: true,format: 'yyyy-mm-dd'}).on('changeDate', function(e) {
+            // Revalidate the date field
+            $("#add-or-update-form").bootstrapValidator('revalidateField', 'dateRemind');
       });
       //Initialize Select2 Elements
       this.modalEl.find(".select2").select2({ width: "100%"});
@@ -577,6 +623,16 @@ export default {
               }
             }
           },
+          dateRemind: {
+            validators: {
+              notEmpty: {
+                message: "please input dateRemind"
+              },
+              date: {
+                format: 'YYYY-MM-DD'
+              }
+            }
+          },
           status: {
             validators: {
               notEmpty: {
@@ -599,9 +655,6 @@ export default {
       });
       this.modalEl.on("shown.bs.modal", function(e) {
         $("#add-or-update-form").bootstrapValidator("resetForm", true);
-         $("#add-or-update-form")
-        .bootstrapValidator('enableFieldValidators', 'password', true)
-        .bootstrapValidator('enableFieldValidators', 'repassword', true);
         form.find("input[name=id]").val('');
       });
       this.modalEl.on("hidden.bs.modal", function(e) {
