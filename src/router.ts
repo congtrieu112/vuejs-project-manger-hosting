@@ -8,6 +8,7 @@ import Callback from "./views/Callback.vue";
 import Login from "./views/Login.vue";
 import CreateClient from "./views/CreateClient.vue";
 import Services from "./views/Services.vue";
+import UserServices from "./views/UserServices.vue";
 import AuthService from "./auth";
 Vue.use(Router);
 const auth = new AuthService();
@@ -51,6 +52,13 @@ const router = new Router({
       component: CreateClient,
       beforeEnter: ifAuthenticated
     },
+    {
+      path: "/user-services",
+      name: "userServices",
+      component: UserServices,
+      beforeEnter: ifAuthenticated
+    },
+    
     {
       path: "/services",
       name: "services",

@@ -4,7 +4,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Clients
+        User Services
         <small>advanced tables</small>
       </h1>
       <ol class="breadcrumb">
@@ -16,7 +16,7 @@
         <li>
           <a href="#">Tables</a>
         </li>
-        <li class="active">Clients</li>
+        <li class="active">User Services</li>
       </ol>
     </section>
 
@@ -26,7 +26,7 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Clients</h3>
+              <h3 class="box-title">User Services</h3>
               <button class="btn btn-success btn-sm btn-add-item ml-20">Add New</button>
             </div>
             <!-- /.box-header -->
@@ -34,11 +34,12 @@
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                   <tr>
-                    <th>fullname</th>
-                    <th>email</th>
-                    <th>phone</th>
+                    <th>name</th>
+                    <th>dateRegister</th>
+                    <th>dateExpires</th>
                     <th>description</th>
-                    <th>birday</th>
+                    <th>services</th>
+                    <th>clients</th>
                     <th>status</th>
                     <th>Action</th>
                   </tr>
@@ -46,11 +47,12 @@
                 <tbody></tbody>
                 <tfoot>
                   <tr>
-                    <th>fullname</th>
-                    <th>email</th>
-                    <th>phone</th>
+                    <th>name</th>
+                    <th>dateRegister</th>
+                    <th>dateExpires</th>
                     <th>description</th>
-                    <th>birday</th>
+                    <th>services</th>
+                    <th>clients</th>
                     <th>status</th>
                     <th>Action</th>
                   </tr>
@@ -67,6 +69,13 @@
     </section>
     <!-- /.content -->
     <!-- MODAL EDIT USER -->
+     <!-- "name",
+            "dateRegister",
+            "dateExpires",
+            "description",
+            "services",
+            "clients",
+            "status" -->
     <div class="modal fade" id="model-edit-or-add-data">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -78,49 +87,60 @@
                 data-dismiss="modal"
                 aria-hidden="true"
               >&times;</button>
-              <h4 class="modal-title">Clients</h4>
+              <h4 class="modal-title">User Services</h4>
             </div>
             <div class="modal-body">
               <div class="form-group">
-                <label for="fullname">Name</label>
+                <label for="name">Name</label>
                 <input
                   type="text"
-                  name="fullname"
+                  name="name"
                   class="form-control"
-                  placeholder="fullname"
+                  placeholder="name"
                   required="required"
                 />
               </div>
               <div class="form-group">
-                <label for="email">email</label>
+                <label for="email">dateRegister</label>
                 <input
-                  type="email"
-                  name="email"
+                  type="text"
+                  name="dateRegister"
                   class="form-control"
-                  placeholder="email"
+                  placeholder="yyyy-mm-dd"
                   required="required"
                 />
               </div>
               <div class="form-group">
-                <label for="phone">phone</label>
+                <label for="phone">dateExpires</label>
                 <input
                   type="text"
-                  name="phone"
+                  name="dateExpires"
                   class="form-control"
-                  placeholder="phone"
+                  placeholder="yyyy-mm-dd"
                   required="required"
                 />
               </div>
               <div class="form-group">
-                <label for="textbirday">birthday</label>
-                <input
-                  type="text"
-                  name="birthday"
-                  id="textbirday"
-                  class="form-control"
-                  placeholder="birthday"
+                <label for="textpassword">clients</label>
+                <select
+                  id="textclients"
+                  class="form-control select2"
+                  name="clients"
                   required="required"
-                />
+                >
+
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="textservices">services</label>
+                <select
+                  name="services"
+                  id="textservices"
+                  class="form-control select2"
+                  placeholder="services"
+                  required="required"
+                >
+                </select>
               </div>
 
               <div class="form-group">
@@ -141,26 +161,8 @@
                 </select>
               </div>
               <input type="hidden" name="id" />
-              <div class="form-group">
-                <label for="textpassword">Password</label>
-                <input
-                  type="password"
-                  id="textpassword"
-                  class="form-control"
-                  name="password"
-                  required="required"
-                />
-              </div>
-              <div class="form-group">
-                <label for="textrepassword">Re Password</label>
-                <input
-                  type="password"
-                  id="textrepassword"
-                  class="form-control"
-                  name="repassword"
-                  required="required"
-                />
-              </div>
+              
+              
             </div>
             <div class="modal-footer">
               <button
@@ -188,13 +190,35 @@ export default {
     return {
       table: "",
       modalEl: "",
-      error:true
+      error:true,
+      dataClients:'',
+      dataServices:''
     };
   },
   methods: {
-    async loadData() {
-      const data = await axios.get(API.HOST + "/clients");
-      console.log("data", data.data);
+    async loadDataClients() {
+       const nClients = await axios.get(API.HOST + "/clients?start=0&length=100000000&orderName=username&orderStatus=asc");
+       let result = '';
+      if(nClients.data.data) {
+        // Do something
+          nClients.data.data.map(function(value, key) {
+            result += `<option value="${value.id}">${value.fullname}-${value.email}</option>`;
+          });
+        
+      }
+      return result;
+    },
+    async loadDataServices() {
+       const nServices = await axios.get(API.HOST + "/services?start=0&length=100000000&orderName=name&orderStatus=asc");
+       let result = '';
+      if(nServices.data.data) {
+        // Do something
+          nServices.data.data.map(function(value, key) {
+            result += `<option value="${value.id}">${value.name}</option>`;
+          });
+        
+      }
+      return result;
     },
     onClick(e) {
       this.error = false;
@@ -206,9 +230,9 @@ export default {
       console.log("this.error",e);
       if (e.detail.error===false) {
         const form = $("#add-or-update-form");
-        let dataValue = form.serialize() + "&username="+form.find("input[name=phone]").val();
+        let dataValue = form.serialize() ;
         const button = form.find("button[type=submit]").button("loading");
-        const result = await Services.createOrApi(dataValue, "clients");
+        const result = await Services.createOrApi(dataValue, "user-services");
         button.button("reset");
         if (result.data.errno) {
           Swal.fire(result.data.message, "", "error");
@@ -220,7 +244,7 @@ export default {
         }
       }
       else if(e.detail.delete){
-        const result = await Services.deleteApi({id:e.detail.delete}, "clients");
+        const result = await Services.deleteApi({id:e.detail.delete}, "user-services");
         if (typeof(result.data.errno) !== "undefined") {
           Swal.fire(result.data.message, "", "error");
         } else {
@@ -234,8 +258,10 @@ export default {
       return false;
     }
   },
-  mounted() {
+  async mounted() {
     document.addEventListener('click', this.handleSubmit);
+    var dataClients = await this.loadDataClients();
+    var dataServices = await this.loadDataServices();
     this.table = $("#example1").DataTable({
       responsive: true,
       aLengthMenu: [
@@ -250,15 +276,16 @@ export default {
       searching: false,
       paging: true,
       ajax: {
-        url: `${API.HOST}/clients`,
+        url: `${API.HOST}/user-services`,
         type: "GET",
         data: function(param) {
           const mappingColumnName = [
-            "fullname",
-            "email",
-            "phone",
+            "name",
+            "dateRegister",
+            "dateExpires",
             "description",
-            "birthday",
+            "services",
+            "clients",
             "status"
           ];
           param.orderName = mappingColumnName[param.order[0].column];
@@ -270,28 +297,61 @@ export default {
       },
       rowId: "id",
       columns: [
-        { data: "fullname" },
-        { data: "email" },
-        { data: "phone" },
+        { data: "name" },
+        { data: "dateRegister" },
+        { data: "dateExpires" },
         { data: "description" },
-        { data: "birthday" },
+        { data: "services" },
+        { data: "clients" },
         { data: "status" }
       ],
-        columnDefs: [
+      columnDefs: [
           {
-            targets: 4,
-            data: "birthday",
+            targets: 1,
+            data: "dateRegister",
             render: function ( data, type, row, meta ) {
               const timeShow = moment(String(data)).format('DD/MM/YYYY');
               const timeInput = moment(String(data)).format('YYYY-MM-DD');
-              const contentbirthday = `<div class="text-center"  data-time="${timeInput}">
+              const contentdateRegister = `<div class="text-center" data-time="${timeInput}">
                                         <span class="alert alert-success">${timeShow}</span>
                                        </div>`;
-              return contentbirthday;//(new Date(data)).toLocaleDateString("en-US");
+              return contentdateRegister;//(new Date(data)).toLocaleDateString("en-US");
+            }
+          },
+          {
+            targets: 2,
+            data: "dateExpires",
+            render: function ( data, type, row, meta ) {
+              const timeShow = moment(String(data)).format('DD/MM/YYYY');
+              const timeInput = moment(String(data)).format('YYYY/MM/DD');
+              const contentdateExpires = `<div class="text-center"  data-time="${timeInput}">
+                                        <span class="alert alert-success">${timeShow}</span>
+                                       </div>`;
+              return contentdateExpires;//(new Date(data)).toLocaleDateString("en-US");
+            }
+          },
+          {
+            targets: 4,
+            data: "services",
+            render: function ( data, type, row, meta ) {
+              const contentServices = `<div class="text-center" data-id="${data.id}">
+                                        <a class="alert alert-success" target="_blank" href="/clients?id=${data.id}">${data.name}</a>
+                                       </div>`;
+              return contentServices;//(new Date(data)).toLocaleDateString("en-US");
             }
           },
           {
             targets: 5,
+            data: "clients",
+            render: function ( data, type, row, meta ) {
+              const contentClients = `<div class="text-center" data-id="${data.id}">
+                                        <a class="alert alert-success" target="_blank" href="/clients?id=${data.id}">${data.fullname}</a>
+                                       </div>`;
+              return contentClients;//(new Date(data)).toLocaleDateString("en-US");
+            }
+          },
+          {
+            targets: 6,
             data: "status",
             render: function ( data, type, row, meta ) {
               let classShow = '';
@@ -313,7 +373,7 @@ export default {
             }
           },
           {
-            targets: 6,
+            targets: 7,
             data: null,
             defaultContent:
               '<a class="btn btn-warning btn-sm btn-edit-item">Edit</a> <a class="btn btn-danger btn-sm btn-delete">Delete</a>'
@@ -327,33 +387,36 @@ export default {
       const form = $("#add-or-update-form");
       const parentsTr = $(this).parents("tr");
       const serviceId = parentsTr.attr("id");
-      const fullname = parentsTr.find("td").eq(0).text(),
-            email = parentsTr.find("td").eq(1).text(),
-            phone = parentsTr.find("td").eq(2).text(),
+      const name = parentsTr.find("td").eq(0).text(),
+            dateRegister = parentsTr.find("td").eq(1).find("div").attr('data-time'),
+            dateExpires = parentsTr.find("td").eq(2).find("div").attr('data-time'),
             description = parentsTr.find("td").eq(3).text(),
-            birthday = parentsTr.find("td").eq(4).find("div").attr('data-time'),
-            status = parentsTr.find("td").eq(5).find("div").attr('data-status');
+            services = parentsTr.find("td").eq(4).find("div").attr('data-id'),
+            clients = parentsTr.find("td").eq(5).find("div").attr('data-id'),
+            status = parentsTr.find("td").eq(6).find("div").attr('data-status');
       //Date picker
-      form.find("input[name=birthday]").datepicker({ autoclose: true,format: 'yyyy-mm-dd'}).on('changeDate', function(e) {
+      this.modalEl.find("input[name=dateExpires]").datepicker({ autoclose: true,format: 'yyyy-mm-dd'}).on('changeDate', function(e) {
             // Revalidate the date field
-            $("#add-or-update-form").bootstrapValidator('revalidateField', 'birthday');
+            $("#add-or-update-form").bootstrapValidator('revalidateField', 'dateExpires');
+      });
+      this.modalEl.find("input[name=dateRegister]").datepicker({ autoclose: true,format: 'yyyy-mm-dd'}).on('changeDate', function(e) {
+            // Revalidate the date field
+            $("#add-or-update-form").bootstrapValidator('revalidateField', 'dateRegister');
       });
       //Initialize Select2 Elements
-      form.find(".select2").select2({ width: "100%" });
+      this.modalEl.find(".select2").select2({ width: "100%"});
+      this.modalEl.find("select[name=services]").html(dataServices);
+      this.modalEl.find("select[name=clients]").html(dataClients);
       this.modalEl.on("shown.bs.modal", function(e) {
         $("#add-or-update-form").bootstrapValidator("resetForm", true);
-        form.find("input[name=fullname]").val(fullname);
-        form.find("input[name=email]").val(email);
-        form.find("input[name=phone]").val(phone);
-        form.find("input[name=birthday]").datepicker('setDate', new Date(birthday));
+        form.find("input[name=name]").val(name);
+        form.find("input[name=dateRegister]").datepicker('setDate', new Date(dateRegister));
+        form.find("input[name=dateExpires]").datepicker('setDate', new Date(dateExpires));
+        form.find("select[name=services]").val(services).trigger("change");
+        form.find("select[name=clients]").val(clients).trigger("change");
         form.find("textarea[name=description]").val(description);
-        form.find("select[name=status]").val(status);
+        form.find("select[name=status]").val(status).trigger("change");
         form.find("input[name=id]").val(serviceId);
-        $("input[name=password]").val('');
-        $("input[name=repassword]").val('');
-        $("#add-or-update-form")
-        .bootstrapValidator('enableFieldValidators', 'password', false)
-        .bootstrapValidator('enableFieldValidators', 'repassword', false);
         
       });
       this.modalEl.on("hidden.bs.modal", function(e) {
@@ -362,27 +425,24 @@ export default {
       $("#add-or-update-form").bootstrapValidator({
          live: 'enabled',
         fields: {
-          email: {
+          name: {
             validators: {
               notEmpty: {
-                message: "please input email"
-              },
-              emailAddress: {
-                message: "email not correct format"
+                message: "please input name"
               }
             }
           },
-          fullname: {
+          services: {
             validators: {
               notEmpty: {
-                message: "please input fullname"
+                message: "please input services"
               }
             }
           },
-          phone: {
+          clients: {
             validators: {
               notEmpty: {
-                message: "please input phone"
+                message: "please input clients"
               }
             }
           },
@@ -393,10 +453,20 @@ export default {
               }
             }
           },
-          birthday: {
+          dateRegister: {
             validators: {
               notEmpty: {
-                message: "please input birthday"
+                message: "please input dateRegister"
+              },
+              date: {
+                format: 'YYYY-MM-DD'
+              }
+            }
+          },
+          dateExpires: {
+            validators: {
+              notEmpty: {
+                message: "please input dateExpires"
               },
               date: {
                 format: 'YYYY-MM-DD'
@@ -407,31 +477,6 @@ export default {
             validators: {
               notEmpty: {
                 message: "please input status"
-              }
-            }
-          },
-          password: {
-            enabled: false,
-            validators: {
-              notEmpty: {
-                message: "please input status password"
-              },
-              stringLength: {
-                min: 6,
-                max: 50,
-                message: "please input passs min 6 to max 50 character"
-              }
-            }
-          },
-          repassword: {
-            enabled: false,
-            validators: {
-              notEmpty: {
-                message: "please input repassword"
-              },
-              identical: {
-                field: "password",
-                message: "repassword does not match password"
               }
             }
           }
@@ -467,38 +512,41 @@ export default {
       const form = $("#add-or-update-form");
       form[0].reset();
       this.modalEl.modal("show");
+      this.modalEl.find("select[name=services]").html(dataServices);
+      this.modalEl.find("select[name=clients]").html(dataClients);
       //Date picker
-      this.modalEl.find("input[name=birthday]").datepicker({ autoclose: true,format: 'yyyy-mm-dd'}).on('changeDate', function(e) {
+      this.modalEl.find("input[name=dateExpires]").datepicker({ autoclose: true,format: 'yyyy-mm-dd'}).on('changeDate', function(e) {
             // Revalidate the date field
-            $("#add-or-update-form").bootstrapValidator('revalidateField', 'birthday');
+            $("#add-or-update-form").bootstrapValidator('revalidateField', 'dateExpires');
+      });
+      this.modalEl.find("input[name=dateRegister]").datepicker({ autoclose: true,format: 'yyyy-mm-dd'}).on('changeDate', function(e) {
+            // Revalidate the date field
+            $("#add-or-update-form").bootstrapValidator('revalidateField', 'dateRegister');
       });
       //Initialize Select2 Elements
-      this.modalEl.find(".select2").select2({ width: "100%" });
+      this.modalEl.find(".select2").select2({ width: "100%"});
 
       $("#add-or-update-form").bootstrapValidator({
          live: 'enabled',
         fields: {
-          email: {
+          name: {
             validators: {
               notEmpty: {
-                message: "please input email"
-              },
-              emailAddress: {
-                message: "email not correct format"
+                message: "please input name"
               }
             }
           },
-          fullname: {
+          services: {
             validators: {
               notEmpty: {
-                message: "please input fullname"
+                message: "please input services"
               }
             }
           },
-          phone: {
+          clients: {
             validators: {
               notEmpty: {
-                message: "please input phone"
+                message: "please input clients"
               }
             }
           },
@@ -509,10 +557,20 @@ export default {
               }
             }
           },
-          birthday: {
+          dateRegister: {
             validators: {
               notEmpty: {
-                message: "please input birthday"
+                message: "please input dateRegister"
+              },
+              date: {
+                format: 'YYYY-MM-DD'
+              }
+            }
+          },
+          dateExpires: {
+            validators: {
+              notEmpty: {
+                message: "please input dateExpires"
               },
               date: {
                 format: 'YYYY-MM-DD'
@@ -523,29 +581,6 @@ export default {
             validators: {
               notEmpty: {
                 message: "please input status"
-              }
-            }
-          },
-          password: {
-            validators: {
-              notEmpty: {
-                message: "please input status password"
-              },
-              stringLength: {
-                min: 6,
-                max: 50,
-                message: "please input passs min 6 to max 50 character"
-              }
-            }
-          },
-          repassword: {
-            validators: {
-              notEmpty: {
-                message: "please input repassword"
-              },
-              identical: {
-                field: "password",
-                message: "repassword does not match password"
               }
             }
           }
@@ -588,8 +623,15 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style >
 .ml-20 {
   margin-left: 20px;
+}
+.alert { 
+  padding: 5px 10px ;
+  margin: 0 ;
+}
+.text-center {
+  text-align: center;
 }
 </style>
