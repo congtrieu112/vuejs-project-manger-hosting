@@ -6,7 +6,6 @@ import Home from "./views/Home.vue";
 import Clients from "./views/Clients.vue";
 import Callback from "./views/Callback.vue";
 import Login from "./views/Login.vue";
-import CreateClient from "./views/CreateClient.vue";
 import Services from "./views/Services.vue";
 import UserServices from "./views/UserServices.vue";
 import AuthService from "./auth";
@@ -44,12 +43,6 @@ const router = new Router({
       path: "/clients",
       name: "clients",
       component: Clients,
-      beforeEnter: ifAuthenticated
-    },
-    {
-      path: "/create-client",
-      name: "createClient",
-      component: CreateClient,
       beforeEnter: ifAuthenticated
     },
     {

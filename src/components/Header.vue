@@ -26,7 +26,7 @@
                   <li>
                     <a href="#">
                       <div class="pull-left">
-                        <img :src="avata" class="img-circle" alt="User Image" />
+                        <img :src="user.picture" class="img-circle" alt="User Image" />
                       </div>
                       <h4>
                         Support Team
@@ -260,15 +260,14 @@
           </li>
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img :src="avata" class="user-image" alt="User Image" />
-              <span class="hidden-xs">Alexander Pierce</span>
+              <img :src="user.picture" class="user-image" alt="User Image" />
+              <span class="hidden-xs">{{user.name}}</span>
             </a>
             <ul class="dropdown-menu">
               <li class="user-header">
-                <img :src="avata" class="img-circle" alt="User Image" />
+                <img :src="user.picture" class="img-circle" alt="User Image" />
                 <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
+                  {{user.name}} 
                 </p>
               </li>
               <li class="user-body">
@@ -308,20 +307,20 @@
 export default {
   data() {
     return {
-      avata: ""
+      user:{}
     };
   },
   methods: {
-    getAvata() {
+    getUser() {
       const user = JSON.parse(localStorage.getItem("user"));
-      this.avata = user.picture;
+      this.user = user;
     },
     logout() {
       this.$auth.logout();
     }
   },
   mounted() {
-    this.getAvata();
+    this.getUser();
     console.log();
   }
 };

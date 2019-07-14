@@ -3,10 +3,10 @@
     <section class="sidebar">
       <div class="user-panel">
         <div class="pull-left image">
-          <img :src="avata" class="img-circle" alt="User Image" />
+          <img :src="user.picture" class="img-circle" alt="User Image" />
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <p>{{user.name}}</p>
           <a href="#"> <i class="fa fa-circle text-success"></i> Online </a>
         </div>
       </div>
@@ -364,11 +364,6 @@
             <li :class="{ active: activeTab == '/clients' }">
               <a href="/clients"> <i class="fa fa-circle-o"></i> Client </a>
             </li>
-            <li :class="{ active: activeTab == '/create-client' }">
-              <a href="/create-client">
-                <i class="fa fa-circle-o"></i> Create Client
-              </a>
-            </li>
           </ul>
         </li>
         <li class="treeview" :class="{ active: activeTab == '/services' }">
@@ -382,11 +377,6 @@
           <ul class="treeview-menu">
             <li :class="{ active: activeTab == '/services' }">
               <a href="/services"> <i class="fa fa-circle-o"></i> services </a>
-            </li>
-            <li>
-              <a href="/create-service">
-                <i class="fa fa-circle-o"></i> Create service
-              </a>
             </li>
           </ul>
         </li>
@@ -402,11 +392,6 @@
             <li :class="{ active: activeTab == '/user-services' }">
               <a href="/user-services">
                 <i class="fa fa-circle-o"></i> User services
-              </a>
-            </li>
-            <li>
-              <a href="/create-user-service">
-                <i class="fa fa-circle-o"></i> Create User service
               </a>
             </li>
           </ul>
@@ -432,18 +417,18 @@ export default {
   data: function() {
     return {
       activeTab: this.$route.path,
-      avata: ""
+      user: {}
     };
   },
   props: ["uuid"],
   methods: {
-    getAvata() {
+    getUser() {
       const user = JSON.parse(localStorage.getItem("user"));
-      this.avata = user.picture;
+      this.user = user;
     }
   },
   mounted() {
-    this.getAvata();
+    this.getUser();
     console.log(this.$route.path);
   }
 };

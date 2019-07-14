@@ -112,7 +112,7 @@
                   required="required"
                 />
               </div>
-              <div class="form-group">
+               <div class="form-group">
                 <label for="dateExpires">dateExpires</label>
                 <input
                   type="text"
@@ -327,7 +327,7 @@ export default {
             render: function ( data, type, row, meta ) {
               const timeShow = moment(String(data)).format('DD/MM/YYYY');
               const timeInput = moment(String(data)).format('YYYY-MM-DD');
-              const contentdateRegister = `<div class="text-center" data-time="${timeInput}">
+              const contentdateRegister = `<div class="text-center mgt-4" data-time="${timeInput}">
                                         <span class="alert alert-success">${timeShow}</span>
                                        </div>`;
               return contentdateRegister;//(new Date(data)).toLocaleDateString("en-US");
@@ -339,7 +339,7 @@ export default {
             render: function ( data, type, row, meta ) {
               const timeShow = moment(String(data)).format('DD/MM/YYYY');
               const timeInput = moment(String(data)).format('YYYY/MM/DD');
-              const contentdateExpires = `<div class="text-center"  data-time="${timeInput}">
+              const contentdateExpires = `<div class="text-center mgt-4"  data-time="${timeInput}">
                                         <span class="alert alert-success">${timeShow}</span>
                                        </div>`;
               return contentdateExpires;//(new Date(data)).toLocaleDateString("en-US");
@@ -350,17 +350,21 @@ export default {
             data: "dateRemind",
             render: function ( data, type, row, meta ) {
               const dateExpires = moment(String(row.dateExpires)).format('X');
-              const dateRegister = moment(String(row.dateRegister)).format('X');
+              // const dateRegister = moment(String(row.dateRegister)).format('X');
               const dateRemind = moment(String(row.dateRemind)).format('X');
-              console.log("dateExpires - dateRegister - dateRemind",dateExpires + '-'+ dateRegister + '-'+ dateRemind)
+              const currentDate =  moment(String(new Date())).format('X');
+              // console.log("dateExpires - dateRegister - dateRemind",dateExpires + '-'+ dateRegister + '-'+ dateRemind)
               let classShow = "alert-success";
 
-              if(dateExpires - dataServices >= dateRemind) {
+              if(currentDate >= dateRemind) {
+                classShow = "alert-warning";
+              }
+              if(currentDate >= dateExpires) {
                 classShow = "alert-danger";
               }
               const timeShow = moment(String(data)).format('DD/MM/YYYY');
               const timeInput = moment(String(data)).format('YYYY/MM/DD');
-              const contentdateRemind = `<div class="text-center"  data-time="${timeInput}">
+              const contentdateRemind = `<div class="text-center mgt-4"  data-time="${timeInput}">
                                         <span class="alert ${classShow}">${timeShow}</span>
                                        </div>`;
               return contentdateRemind;//(new Date(data)).toLocaleDateString("en-US");
@@ -370,7 +374,7 @@ export default {
             targets: 5,
             data: "services",
             render: function ( data, type, row, meta ) {
-              const contentServices = `<div class="text-center" data-id="${data.id}">
+              const contentServices = `<div class="text-center mgt-4" data-id="${data.id}">
                                         <a class="alert alert-success" target="_blank" href="/clients?id=${data.id}">${data.name}</a>
                                        </div>`;
               return contentServices;//(new Date(data)).toLocaleDateString("en-US");
@@ -380,7 +384,7 @@ export default {
             targets: 6,
             data: "clients",
             render: function ( data, type, row, meta ) {
-              const contentClients = `<div class="text-center" data-id="${data.id}">
+              const contentClients = `<div class="text-center mgt-4" data-id="${data.id}">
                                         <a class="alert alert-success" target="_blank" href="/clients?id=${data.id}">${data.fullname}</a>
                                        </div>`;
               return contentClients;//(new Date(data)).toLocaleDateString("en-US");
@@ -402,7 +406,7 @@ export default {
                     dataShow = 'Disable';
                     break;
               }
-              const contentStatus = `<div class="text-center" data-status="${data}">
+              const contentStatus = `<div class="text-center mgt-4" data-status="${data}">
                                         <span class="alert ${classShow}">${dataShow}</span>
                                        </div>`;
               return contentStatus;//(new Date(data)).toLocaleDateString("en-US");
@@ -502,6 +506,39 @@ export default {
               },
               date: {
                 format: 'YYYY-MM-DD'
+              },
+              callback: {
+                  message: 'Wrong date',
+                  callback: function (value, validator, $field) {
+                      // Determine the numbers which are generated in captchaOperation
+                      const dateExpires = $("#add-or-update-form").find("input[name=dateExpires]").val();
+                      const dateRemind = $("#add-or-update-form").find("input[name=dateRemind]").val();
+                      let result = true;
+                      if(!dateExpires && !dateRemind){
+                        result = true;
+                      }else if(dateExpires && dateRemind) {
+                        if(value>=dateExpires){
+                          result={valid: false,message: 'It must be less than dateExpires'};
+                        }else if(value>=dateRemind){
+                          result={valid: false,message: 'It must be less than dateRemind'};
+                        }else{
+                          result = true;
+                        }
+                      }else if(dateExpires && !dateRemind){
+                        if(value>=dateExpires){
+                          result={valid: false,message: 'It must be less than dateExpires'};;
+                        }else{
+                          result = true;
+                        }
+                      }else if(dateRemind && !dateExpires) {
+                        if(value>=dateRemind){
+                          result={valid: false,message: 'It must be less than dateRemind'};;
+                        }else{
+                          result = true;
+                        }
+                      }
+                      return result;
+                  }
               }
             }
           },
@@ -512,6 +549,39 @@ export default {
               },
               date: {
                 format: 'YYYY-MM-DD'
+              },
+              callback: {
+                  message: 'Wrong date',
+                  callback: function (value, validator, $field) {
+                      // Determine the numbers which are generated in captchaOperation
+                      const dateRegister = $("#add-or-update-form").find("input[name=dateRegister]").val();
+                      const dateRemind = $("#add-or-update-form").find("input[name=dateRemind]").val();
+                      let result = true;
+                      if(!dateRegister && !dateRemind){
+                        result = true;
+                      }else if(dateRegister && dateRemind) {
+                        if(value<=dateRegister){
+                          result={valid: false,message: 'It must be more than dateRegister'};
+                        }else if(value<=dateRemind){
+                          result={valid: false,message: 'It must be more than dateRemind'};
+                        }else{
+                          result = true;
+                        }
+                      }else if(dateRegister && !dateRemind){
+                        if(value<=dateRegister){
+                          result={valid: false,message: 'It must be more than dateRegister'};;
+                        }else{
+                          result = true;
+                        }
+                      }else if(dateRemind && !dateRegister) {
+                        if(value<=dateRemind){
+                          result={valid: false,message: 'It must be less than dateRemind'};;
+                        }else{
+                          result = true;
+                        }
+                      }
+                      return result;
+                  }
               }
             }
           },
@@ -522,6 +592,39 @@ export default {
               },
               date: {
                 format: 'YYYY-MM-DD'
+              },
+              callback: {
+                  message: 'Wrong date',
+                  callback: function (value, validator, $field) {
+                      // Determine the numbers which are generated in captchaOperation
+                      const dateExpires = $("#add-or-update-form").find("input[name=dateExpires]").val();
+                      const dateRegister = $("#add-or-update-form").find("input[name=dateRegister]").val();
+                      let result = true;
+                      if(!dateExpires && !dateRegister){
+                        result = true;
+                      }else if(dateExpires && dateRegister) {
+                        if(value>=dateExpires){
+                          result={valid: false,message: 'It must be less than dateExpires'};
+                        }else if(value<=dateRegister){
+                          result={valid: false,message: 'It must be more than dateRegister'};
+                        }else{
+                          result = true;
+                        }
+                      }else if(dateExpires && !dateRegister){
+                        if(value>=dateExpires){
+                          result={valid: false,message: 'It must be less than dateExpires'};;
+                        }else{
+                          result = true;
+                        }
+                      }else if(dateRegister && !dateExpires) {
+                        if(value<=dateRegister){
+                          result={valid: false,message: 'It must be more than dateRegister'};;
+                        }else{
+                          result = true;
+                        }
+                      }
+                      return result;
+                  }
               }
             }
           },
@@ -610,6 +713,39 @@ export default {
               },
               date: {
                 format: 'YYYY-MM-DD'
+              },
+              callback: {
+                  message: 'Wrong date',
+                  callback: function (value, validator, $field) {
+                      // Determine the numbers which are generated in captchaOperation
+                      const dateExpires = $("#add-or-update-form").find("input[name=dateExpires]").val();
+                      const dateRemind = $("#add-or-update-form").find("input[name=dateRemind]").val();
+                      let result = true;
+                      if(!dateExpires && !dateRemind){
+                        result = true;
+                      }else if(dateExpires && dateRemind) {
+                        if(value>=dateExpires){
+                          result={valid: false,message: 'It must be less than dateExpires'};
+                        }else if(value>=dateRemind){
+                          result={valid: false,message: 'It must be less than dateRemind'};
+                        }else{
+                          result = true;
+                        }
+                      }else if(dateExpires && !dateRemind){
+                        if(value>=dateExpires){
+                          result={valid: false,message: 'It must be less than dateExpires'};;
+                        }else{
+                          result = true;
+                        }
+                      }else if(dateRemind && !dateExpires) {
+                        if(value>=dateRemind){
+                          result={valid: false,message: 'It must be less than dateRemind'};;
+                        }else{
+                          result = true;
+                        }
+                      }
+                      return result;
+                  }
               }
             }
           },
@@ -620,16 +756,82 @@ export default {
               },
               date: {
                 format: 'YYYY-MM-DD'
+              },
+              callback: {
+                  message: 'Wrong date',
+                  callback: function (value, validator, $field) {
+                      // Determine the numbers which are generated in captchaOperation
+                      const dateRegister = $("#add-or-update-form").find("input[name=dateRegister]").val();
+                      const dateRemind = $("#add-or-update-form").find("input[name=dateRemind]").val();
+                      let result = true;
+                      if(!dateRegister && !dateRemind){
+                        result = true;
+                      }else if(dateRegister && dateRemind) {
+                        if(value<=dateRegister){
+                          result={valid: false,message: 'It must be more than dateRegister'};
+                        }else if(value<=dateRemind){
+                          result={valid: false,message: 'It must be more than dateRemind'};
+                        }else{
+                          result = true;
+                        }
+                      }else if(dateRegister && !dateRemind){
+                        if(value<=dateRegister){
+                          result={valid: false,message: 'It must be more than dateRegister'};;
+                        }else{
+                          result = true;
+                        }
+                      }else if(dateRemind && !dateRegister) {
+                        if(value<=dateRemind){
+                          result={valid: false,message: 'It must be less than dateRemind'};;
+                        }else{
+                          result = true;
+                        }
+                      }
+                      return result;
+                  }
               }
             }
           },
           dateRemind: {
             validators: {
               notEmpty: {
-                message: "please input dateRemind"
+                message: "please input dateRimind"
               },
               date: {
                 format: 'YYYY-MM-DD'
+              },
+              callback: {
+                  message: 'Wrong date',
+                  callback: function (value, validator, $field) {
+                      // Determine the numbers which are generated in captchaOperation
+                      const dateExpires = $("#add-or-update-form").find("input[name=dateExpires]").val();
+                      const dateRegister = $("#add-or-update-form").find("input[name=dateRegister]").val();
+                      let result = true;
+                      if(!dateExpires && !dateRegister){
+                        result = true;
+                      }else if(dateExpires && dateRegister) {
+                        if(value>=dateExpires){
+                          result={valid: false,message: 'It must be less than dateExpires'};
+                        }else if(value<=dateRegister){
+                          result={valid: false,message: 'It must be more than dateRegister'};
+                        }else{
+                          result = true;
+                        }
+                      }else if(dateExpires && !dateRegister){
+                        if(value>=dateExpires){
+                          result={valid: false,message: 'It must be less than dateExpires'};;
+                        }else{
+                          result = true;
+                        }
+                      }else if(dateRegister && !dateExpires) {
+                        if(value<=dateRegister){
+                          result={valid: false,message: 'It must be more than dateRegister'};;
+                        }else{
+                          result = true;
+                        }
+                      }
+                      return result;
+                  }
               }
             }
           },
@@ -684,7 +886,7 @@ export default {
   padding: 5px 10px ;
   margin: 0 ;
 }
-.text-center {
-  text-align: center;
+.mgt-4 {
+  margin-top: 4px;
 }
 </style>

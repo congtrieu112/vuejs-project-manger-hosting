@@ -215,7 +215,7 @@ export default {
                     dataShow = 'Disable';
                     break;
               }
-              const contentStatus = `<div class="text-center" data-status="${data}">
+              const contentStatus = `<div class="text-center mgt-4" data-status="${data}">
                                         <span class="alert ${classShow}">${dataShow}</span>
                                        </div>`;
               return contentStatus;//(new Date(data)).toLocaleDateString("en-US");

@@ -284,7 +284,7 @@ export default {
             render: function ( data, type, row, meta ) {
               const timeShow = moment(String(data)).format('DD/MM/YYYY');
               const timeInput = moment(String(data)).format('YYYY-MM-DD');
-              const contentbirthday = `<div class="text-center"  data-time="${timeInput}">
+              const contentbirthday = `<div class="text-center mgt-4"  data-time="${timeInput}">
                                         <span class="alert alert-success">${timeShow}</span>
                                        </div>`;
               return contentbirthday;//(new Date(data)).toLocaleDateString("en-US");
@@ -306,7 +306,7 @@ export default {
                     dataShow = 'Disable';
                     break;
               }
-              const contentStatus = `<div class="text-center" data-status="${data}">
+              const contentStatus = `<div class="text-center mgt-4" data-status="${data}">
                                         <span class="alert ${classShow}">${dataShow}</span>
                                        </div>`;
               return contentStatus;//(new Date(data)).toLocaleDateString("en-US");
