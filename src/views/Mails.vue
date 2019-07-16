@@ -89,7 +89,7 @@ import Swal from "sweetalert2";
 export default {
   data: function() {
     return {
-      error: true
+      error: false
     };
   },
   methods: {
@@ -132,7 +132,8 @@ export default {
     //             });
     // });
     var editor = CKEDITOR.replace("description", {
-      removePlugins: "sourcearea"
+      allowedContent: true
+      // removePlugins: "sourcearea"
     });
     // CKEDITOR.replace('description');
     CKEDITOR.on("instanceReady", function() {
@@ -143,6 +144,7 @@ export default {
         });
       });
     });
+    var sendCount = 0;
     $("#add-or-update-form").bootstrapValidator({
       message: "This value is not valid",
       excluded: [":disabled"],
@@ -189,12 +191,14 @@ export default {
 
       onSuccess: async function(e, data) {
         e.preventDefault();
-        var event = new CustomEvent("click", {
-          detail: {
-            error: false
-          }
-        });
-        document.dispatchEvent(event);
+            var event = new CustomEvent("click", {
+            detail: {
+              error: false
+            }
+          });
+          document.dispatchEvent(event);
+          CKEDITOR.instances.description.setData('');
+        
         return false;
       }
     });
